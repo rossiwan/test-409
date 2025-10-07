@@ -1,32 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Test Form</title>
-</head>
-<body>
-  <form id="myForm">
-    <label for="name">Name:</label>
-    <input id="name" name="name" type="text" />
+<template>
+  <div class="q-pa-md" style="max-width: 400px">
 
-    <label for="age">Age:</label>
-    <input id="age" name="age" type="number" />
+    <q-form
+      @submit="onSubmit"
+      @reset="onReset"
+      class="q-gutter-md"
+    >
+      <q-input
+        filled
+        v-model="name"
+        label="Your name *"
+        hint="Name and surname"
+        lazy-rules
+        :rules="[ val => val && val.length > 0 || 'Please type something']"
+      />
 
-    <label>
-      <input id="terms" type="checkbox" /> Accept Terms
-    </label>
+      <q-input
+        filled
+        type="number"
+        v-model="age"
+        label="Your age *"
+        lazy-rules
+        :rules="[
+          val => val !== null && val !== '' || 'Please type your age',
+          val => val > 0 && val < 100 || 'Please type a real age'
+        ]"
+      />
 
-    <button type="submit">Submit</button>
-  </form>
+      <q-toggle v-model="accept" label="I accept the license and terms" />
 
-  <p id="success" style="display:none;color:green;">Success</p>
+      <div>
+        <q-btn label="Submit" type="submit" color="primary"/>
+        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+      </div>
+    </q-form>
 
-  <script>
-    const form = document.getElementById('myForm');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      document.getElementById('success').style.display = 'block';
-    });
-  </script>
-</body>
-</html>
+  </div>
+</template>
